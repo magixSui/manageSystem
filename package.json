@@ -1,0 +1,39 @@
+{
+  "name": "manage_system_server",
+  "version": "1.0.0",
+  "description": "koa2 manage system server side",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production&&node app.js",
+    "dev": "cross-env NODE_ENV=development&&node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magicxin/manage_system_server.git"
+  },
+  "keywords": [
+    "koa2",
+    "nodejs",
+    "server"
+  ],
+  "author": "magix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magicxin/manage_system_server/issues"
+  },
+  "homepage": "https://github.com/magicxin/manage_system_server#readme",
+  "dependencies": {
+    "@koa/cors": "^2.2.3",
+    "jsonwebtoken": "^8.4.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.4.13"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.2",
+    "cross-env": "^5.2.0"
+  }
+}
