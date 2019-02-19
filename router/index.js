@@ -4,7 +4,7 @@ const Router = require('koa-router');
 const router = new Router({
   prefix: '/community_manage'
 });
-const Login = require('../controller/admin');
+const User = require('../controller/user');
 
 const r = function(app) {
   
@@ -13,7 +13,7 @@ const r = function(app) {
  * 看到 router.allowedMethods()用在了路由匹配 router.routes()之后,所以在当所有
  * 路由中间件最后调用.此时根据 ctx.status 设置 response 响应头 
  */
-  router.use("/admin", Login.routes());
+  router.use("/user", User.routes());
   app.use(router.routes()).use(router.allowedMethods());
 }
 
