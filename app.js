@@ -7,7 +7,7 @@ const Router = require('./router');
 const chalk = require('chalk');
 const cors = require('@koa/cors');
 const mongoose = require('mongoose');
-
+const init = require('./controller/init')
 const app = new Koa();
 
 const getMethods = uris.get;

@@ -1,8 +1,6 @@
 'use strict'
-
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
-
 /**
  * 定义一个模式(相当于传统意义的表结构)
  * 每个模式映射mongoDB的一个集合，
@@ -16,10 +14,7 @@ var UserSchema = new Schema({
     type: String
   },
   password: String,
-  phoneNumber: {
-    unique: true,
-    type: String
-  },
+  phoneNumber: String,
   nickname: String,
   avatar: String,
   dynamic: Array,
@@ -28,6 +23,11 @@ var UserSchema = new Schema({
   car:Object,
   house:Object,
   bill:Object,
+  type:{
+       type: Schema.Types.ObjectId,
+       ref: 'Type'
+    },
+  statu:Object,
   meta: {
     createAt: {
       type: Date,

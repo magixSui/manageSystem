@@ -4,13 +4,19 @@ const Router = require("koa-router");
 const createToken = require("../token/createToken");
 const router = new Router();
 const User = require('../schemas/userSchema');
+const Type = require('../schemas/typeSchema');
 
 // 创建账号
 /*
+ * * @desc 注册
  * @url '/community_manage/create'
  * @params [String] username @desc 账号
  * @params [String] password @desc 密码
  * */
+var type = Type({
+  value:'0',
+  name:'超级管理员'
+})
   User.findOne({
     username: 'admin'
   }).exec((err,admin)=>{
@@ -19,7 +25,13 @@ const User = require('../schemas/userSchema');
       username: 'admin',
       password: '111111',
       nickname: '超级管理员',
+      phoneNumber:'',
       avatar: '/avatar.jpg',
+      type: type,
+      statu: {
+        value:'0',
+        name: '超级管理员'
+      },
       dynamic: [],
       followers: [],
       watchers:[],
@@ -43,8 +55,17 @@ router.post('/create', async(ctx) => {
         username: username,
         password: password,
         nickname: username,
+        phoneNumber:'',
         avatar: '/avatar.jpg',
         dynamic: [],
+        type: {
+          value:'2',
+          name:'用户'
+        },
+        statu: {
+        value:'1',
+        name: '未审核'
+      },
         followers: [],
         watchers:[],
         car:{},
@@ -73,23 +94,49 @@ router.post('/create', async(ctx) => {
   }
 })
 /*
+ * @desc 登录
  * @url '/community_manage/login'
  * @params [String] username @desc 账号
  * @params [String] password @desc 密码
  * */
 router.post('/login', async(ctx) => {
 const {username,password} = ctx.request.body
-let token = createToken();
+let exist = await User.findOne({
+  username:username,
+  password:password
+}).exec()
+if(!exist) {
+  ctx.body = {
+    code:503,
+    message: '账号或密码错误'
+  }
+}else {
+  let token = createToken();
+  ctx.body = {
+    code:200,
+    message: 'success',
+    data: exist,
+    token:token
+  }
+}
+})
+/*
+ * @desc 查询
+ * @url '/community_manage/search'
+ * @params [String] pagesize @desc 条数
+ * @params [String] pagenum @desc 第几组
+ * */
+router.get('/search', async(ctx) => {
+const {pagesize,pagenum} = ctx.request.body
+let users = await User.find({value:'1'}).exec();
   ctx.body = {
     code:200,
     message: 'success',
     data: {
-      name:'magix'
-    },
-    token:token
+      users:users
+    }
   }
 })
-
 /*
  * @url '/community_manage/login'
  * @params [String] username @desc 账号
