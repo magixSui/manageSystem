@@ -16,7 +16,7 @@ const postMethods = uris.post;
 
 mongoose.connect('mongodb://' + config.mongodb + '/community_management',{useNewUrlParser:true})
 mongoose.set('useCreateIndex', true);
-
+mongoose.set('useFindAndModify', false)
 //var db = mongoose.connection;
 //db.on('error', console.error.bind(console, 'connection error:'));
 //db.once('open', function() {

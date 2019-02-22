@@ -1,1 +1,1 @@
-const type = require('./type')
+//const type = require('./type')

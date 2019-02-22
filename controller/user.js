@@ -27,17 +27,8 @@ var type = Type({
       nickname: '超级管理员',
       phoneNumber:'',
       avatar: '/avatar.jpg',
-      type: type,
-      statu: {
-        value:'0',
-        name: '超级管理员'
-      },
-      dynamic: [],
-      followers: [],
-      watchers:[],
-      car:{},
-      house:{},
-      bill:{}
+      type: '0',
+      statu: '0'
     })
     user.save()
     }
@@ -58,14 +49,8 @@ router.post('/create', async(ctx) => {
         phoneNumber:'',
         avatar: '/avatar.jpg',
         dynamic: [],
-        type: {
-          value:'2',
-          name:'用户'
-        },
-        statu: {
-        value:'1',
-        name: '未审核'
-      },
+        type: '2',
+        statu: '1',
         followers: [],
         watchers:[],
         car:{},
@@ -125,10 +110,16 @@ if(!exist) {
  * @url '/community_manage/search'
  * @params [String] pagesize @desc 条数
  * @params [String] pagenum @desc 第几组
+ * @params [String] type @desc 用户类型
  * */
 router.get('/search', async(ctx) => {
-const {pagesize,pagenum} = ctx.request.body
-let users = await User.find({value:'1'}).exec();
+const {pagesize,pagenum,type} = ctx.request.query
+let users = '';
+if(type === '0') {
+  users = await User.find().exec()
+}else if(type === '1') {
+  users = await User.find({type:{$or:['1','2']}}).exec()
+}
   ctx.body = {
     code:200,
     message: 'success',
@@ -136,6 +127,43 @@ let users = await User.find({value:'1'}).exec();
       users:users
     }
   }
+})
+/*
+ * @desc 审核用户
+ * @url '/community_manage/check'
+ * @params [String] username @desc 用户名
+ * */
+router.post('/check', async(ctx) => {
+const {username} = ctx.request.body
+let user = await User.findOneAndUpdate({username:username},{statu:'2'})
+if(user) {
+  ctx.body = {
+    code:200,
+    message: '审核通过',
+    data: {
+      success:true
+    }
+  }
+}
+})
+/*
+ * @desc 修改权限
+ * @url '/community_manage/changeAuth'
+ * @params [String] username @desc 用户名
+ * */
+router.post('/changeAuth', async(ctx) => {
+const {username} = ctx.request.body
+console.log(username)
+let user = await User.findOneAndUpdate({username:username},{statu:'2'})
+if(user) {
+  ctx.body = {
+    code:200,
+    message: '审核通过',
+    data: {
+      success:true
+    }
+  }
+}
 })
 /*
  * @url '/community_manage/login'

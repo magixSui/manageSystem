@@ -23,11 +23,8 @@ var UserSchema = new Schema({
   car:Object,
   house:Object,
   bill:Object,
-  type:{
-       type: Schema.Types.ObjectId,
-       ref: 'Type'
-    },
-  statu:Object,
+  type:String,// 0 超级管理员 1 管理员 2 用户
+  statu:String,// 0 超级管理员 1 未审核 2 已审核
   meta: {
     createAt: {
       type: Date,
