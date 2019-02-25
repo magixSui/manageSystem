@@ -5,6 +5,7 @@ const router = new Router({
   prefix: '/community_manage'
 });
 const User = require('../controller/user');
+const News = require('../controller/news');
 
 const r = function(app) {
   
@@ -14,6 +15,7 @@ const r = function(app) {
  * 路由中间件最后调用.此时根据 ctx.status 设置 response 响应头 
  */
   router.use("/user", User.routes());
+  router.use("/news", News.routes());
   app.use(router.routes()).use(router.allowedMethods());
 }
 

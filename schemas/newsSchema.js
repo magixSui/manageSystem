@@ -1,6 +1,8 @@
 'use strict'
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
+
+let ObjectId = mongoose.Schema.Types.ObjectId;
 /**
  * 定义一个模式(相当于传统意义的表结构)
  * 每个模式映射mongoDB的一个集合，
@@ -8,26 +10,16 @@ var Schema = mongoose.Schema;
  * 除了定义结构外，还定义文档的实例方法，静态模型方法，复合索引，中间件等
  * @type {mongoose}
  */
-var UserSchema = new Schema({
-  username: {
-    unique: true,
-    type: String
+const NewsSchema = new Schema({
+  title:String,
+  sub:String, // 副标题
+  user:{
+    type: ObjectId,
+    ref: 'User'
   },
-  password: String,
-  phoneNumber: String,
-  nickname: String,
-  avatar: String,
-  dynamic: [{
-    type:Schema.Types.ObjectId,
-    ref:'News'
-  }],
-  followers: Array,
-  watchers:Array,
-  car:Object,
-  house:Object,
-  bill:Object,
-  type:String,// 0 超级管理员 1 管理员 2 用户
-  statu:String,// 0 超级管理员 1 未审核 2 已审核
+  content: String,
+  type:String,// // 1 租赁 2 新鲜事
+  images:Array,
   meta: {
     createAt: {
       type: Date,
@@ -41,7 +33,7 @@ var UserSchema = new Schema({
 })
 
 // Defines a pre hook for the document.
-UserSchema.pre('save', function(next) {
+NewsSchema.pre('save', function(next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updateAt = Date.now()
   }
@@ -58,6 +50,6 @@ UserSchema.pre('save', function(next) {
  * @type {[type]}
  */
 // 参数User 数据库中的集合名称, 不存在会创建.
-var User = mongoose.model('User', UserSchema)
+var News = mongoose.model('News', NewsSchema)
 
-module.exports = User
+module.exports = News

@@ -118,13 +118,35 @@ let users = '';
 if(type === '0') {
   users = await User.find().exec()
 }else if(type === '1') {
-  users = await User.find({type:{$or:['1','2']}}).exec()
+  users = await User.find({type:{$in:['1','2']}}).exec()
 }
   ctx.body = {
     code:200,
     message: 'success',
     data: {
       users:users
+    }
+  }
+})
+/*
+ * @desc 修改
+ * @url '/community_manage/search'
+ * @params [String] pagesize @desc 条数
+ * @params [String] pagenum @desc 第几组
+ * @params [String] type @desc 用户类型
+ * */
+router.post('/update', async(ctx) => {
+const {username,nickname,car,house} = ctx.request.body
+let user = '';
+user = await User.findOneAndUpdate({username:username},{nickname:nickname,car:car,house:house},{new:true})
+user.save()
+  if(user) {
+      ctx.body = {
+      code:200,
+      message: 'success',
+      data: {
+        user:user
+      }
     }
   }
 })
@@ -152,9 +174,9 @@ if(user) {
  * @params [String] username @desc 用户名
  * */
 router.post('/changeAuth', async(ctx) => {
-const {username} = ctx.request.body
+const {username,type} = ctx.request.body
 console.log(username)
-let user = await User.findOneAndUpdate({username:username},{statu:'2'})
+let user = await User.findOneAndUpdate({username:username},{type:type})
 if(user) {
   ctx.body = {
     code:200,
