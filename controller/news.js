@@ -66,7 +66,7 @@ router.post('/save', async(ctx) => {
 })
 // 查询资讯
 /*
- * * @desc 注册
+ * * @desc 列表
  * @url '/community_manage/news/search'
  * @params [String] type @desc 标题
  * */
@@ -75,10 +75,12 @@ router.get('/search', async(ctx) => {
   let count = Number(ctx.request.query.count)
   let index = Number(ctx.request.query.index)*count
   let news = ''
-  let length = await News.count()
+  let length = 0
   if(type) {
+    length = await News.find({type:type}).count()
     news = await News.find({type:type},{},{news:true}).skip(index).limit(count).populate('user').exec()
   }else {
+    length = await News.count()
     news = await News.find({},{},{news:true}).skip(index).limit(count).populate('user').exec()
   }
   
@@ -89,6 +91,23 @@ router.get('/search', async(ctx) => {
       news:news,
       length:length
     }
+  }
+})
+
+// 查询详情
+/*
+ * * @desc 详情
+ * @url '/community_manage/news/searchById'
+ * @params [String] _id @desc 资讯id
+ * */
+router.get('/searchById', async(ctx) => {
+  let _id = ctx.request.query._id
+  let news = await News.findOne({_id:_id}).populate('user').exec()
+  
+  ctx.body = {
+    code: 200,
+    message: '查询成功',
+    data: news
   }
 })
 // 删除资讯

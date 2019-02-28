@@ -119,6 +119,8 @@ if(type === '0') {
   users = await User.find().exec()
 }else if(type === '1') {
   users = await User.find({type:{$in:['1','2']}}).exec()
+}else if(type === '2') {
+  users = await User.find({type:{$in:['2']}}).exec()
 }
   ctx.body = {
     code:200,

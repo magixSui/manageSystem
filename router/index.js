@@ -6,6 +6,7 @@ const router = new Router({
 });
 const User = require('../controller/user');
 const News = require('../controller/news');
+const House = require('../controller/house');
 
 const r = function(app) {
   
@@ -16,6 +17,7 @@ const r = function(app) {
  */
   router.use("/user", User.routes());
   router.use("/news", News.routes());
+  router.use("/house", House.routes());
   app.use(router.routes()).use(router.allowedMethods());
 }
 
