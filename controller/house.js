@@ -51,6 +51,21 @@ router.post('/save', async(ctx) => {
  * * @desc 保存
  * */
 router.get('/list', async(ctx) => {
+  let ids = ctx.request.body.ids
+  let house = await House.find({},{},{new:true}).populate('user').exec()
+  ctx.body = {
+    code: 200,
+    message: '查询成功',
+    data: {
+      house:house
+    }
+  }
+})
+
+/*
+ * * @desc 删除
+ * */
+router.get('/delete', async(ctx) => {
   let house = await House.find({},{},{new:true}).populate('user').exec()
   ctx.body = {
     code: 200,

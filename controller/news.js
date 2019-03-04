@@ -4,6 +4,7 @@ const Router = require("koa-router");
 const router = new Router();
 const News = require('../schemas/newsSchema');
 const User = require('../schemas/userSchema');
+const utils = require('../utils');
 // 创建资讯
 /*
  * * @desc 保存
@@ -18,11 +19,12 @@ const User = require('../schemas/userSchema');
 router.post('/save', async(ctx) => {
   let title = ctx.request.body.title
   let sub = ctx.request.body.sub
-  let images = ctx.request.body.images
   let content = ctx.request.body.content
   let type = ctx.request.body.type
   let userId = ctx.request.body.userId
   let newsId = ctx.request.body._id
+  
+  let images = utils.getUrlFromEditor(content)
   if(newsId) {
     const news = await News.findOneAndUpdate({_id:newsId},
     {
