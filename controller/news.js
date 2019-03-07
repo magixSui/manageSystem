@@ -79,10 +79,10 @@ router.get('/search', async(ctx) => {
   let news = ''
   let length = 0
   if(type) {
-    length = await News.find({type:type}).count()
+    length = await News.find({type:type}).countDocuments()
     news = await News.find({type:type},{},{news:true}).skip(index).limit(count).populate('user').exec()
   }else {
-    length = await News.count()
+    length = await News.countDocuments()
     news = await News.find({},{},{news:true}).skip(index).limit(count).populate('user').exec()
   }
   

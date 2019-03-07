@@ -51,7 +51,6 @@ router.post('/save', async(ctx) => {
  * * @desc 保存
  * */
 router.get('/list', async(ctx) => {
-  let ids = ctx.request.body.ids
   let house = await House.find({},{},{new:true}).populate('user').exec()
   ctx.body = {
     code: 200,
@@ -65,13 +64,16 @@ router.get('/list', async(ctx) => {
 /*
  * * @desc 删除
  * */
-router.get('/delete', async(ctx) => {
-  let house = await House.find({},{},{new:true}).populate('user').exec()
-  ctx.body = {
-    code: 200,
-    message: '查询成功',
-    data: {
-      house:house
+router.post('/delete', async(ctx) => {
+  let ids = ctx.request.body
+  let house = await House.deleteMany({_id:{$in:ids}}).exec()
+  if(house) {
+    ctx.body = {
+      code: 200,
+      message: '删除成功',
+      data: {
+        house:house
+      }
     }
   }
 })
