@@ -60,7 +60,31 @@ router.get('/list', async(ctx) => {
     }
   }
 })
-
+/*
+ * * @desc 查询
+ * */
+router.get('/search', async(ctx) => {
+  let userId = ctx.request.query.userId
+  console.log(userId)
+  let house = await House.findOne({user:userId}).exec()
+  if(house) {
+    ctx.body = {
+      code: 200,
+      message: '查询成功',
+      data: {
+        house:house
+      }
+    }
+  }else {
+    ctx.body = {
+      code: 505,
+      message: '用户无房产',
+      data: {
+        house:house
+      }
+    }
+  }
+})
 /*
  * * @desc 删除
  * */
