@@ -26,7 +26,7 @@ var type = Type({
       password: '111111',
       nickname: '超级管理员',
       phoneNumber:'',
-      avatar: '/avatar.jpg',
+      avatar: '/upload/image/avatar.png',
       type: '0',
       statu: '0'
     })
@@ -47,7 +47,7 @@ router.post('/create', async(ctx) => {
         password: password,
         nickname: username,
         phoneNumber:'',
-        avatar: '/avatar.jpg',
+        avatar: '/upload/image/avatar.png',
         dynamic: [],
         type: '2',
         statu: '1',
@@ -151,6 +151,50 @@ user.save()
       }
     }
   }
+})
+/*
+ * @desc 修改密码
+ * @url '/community_manage/reset_pass'
+ * @params [String] old_pass @desc 旧密码
+ * @params [String] new_pass @desc 新密码
+ * @params [String] new_repass @desc 新密码
+ * */
+router.post('/reset_pass', async(ctx) => {
+const {username,old_pass,new_pass,new_repass} = ctx.request.body
+let user = '';
+if(new_pass === new_repass) {
+  user = await User.findOneAndUpdate({username:username},{password:new_pass},{new:true})
+  user.save()
+  if(user) {
+      ctx.body = {
+      code:200,
+      message: 'success',
+      data: {
+        user:user
+      }
+    }
+  }else {
+    ctx.body = {
+      code:506,
+      message: '用户不存在',
+      data: {
+        user:user
+      }
+    }
+  }
+}else {
+  if(user) {
+      ctx.body = {
+      code:505,
+      message: '两次密码输入不一致',
+      data: {
+        user:user
+      }
+    }
+  }
+}
+
+  
 })
 /*
  * @desc 审核用户
