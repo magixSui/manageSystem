@@ -21,7 +21,6 @@ router.post('/save', async(ctx) => {
   let numbered = ctx.request.body.numbered
   let userId = ctx.request.body.userId
   let exist = await House.findOne({numbered:numbered}).exec()
-  console.log(exist)
   if(exist) {
     ctx.body = {
     code: 505,
@@ -46,17 +45,21 @@ router.post('/save', async(ctx) => {
     }
   }
 })
-// 房屋信心列表
 /*
- * * @desc 保存
+ * * @desc 房屋信息列表
  * */
 router.get('/list', async(ctx) => {
-  let house = await House.find({},{},{new:true}).populate('user').exec()
+  let count = Number(ctx.request.query.count)
+  let index = Number(ctx.request.query.index)*count
+  console.log(count)
+  let length = await House.countDocuments()
+  let house = await House.find({},{},{new:true}).skip(index).limit(count).populate('user').exec()
   ctx.body = {
     code: 200,
     message: '查询成功',
     data: {
-      house:house
+      house:house,
+      length:length
     }
   }
 })
@@ -65,7 +68,6 @@ router.get('/list', async(ctx) => {
  * */
 router.get('/search', async(ctx) => {
   let userId = ctx.request.query.userId
-  console.log(userId)
   let house = await House.findOne({user:userId}).exec()
   if(house) {
     ctx.body = {

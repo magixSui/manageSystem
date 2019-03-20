@@ -80,6 +80,35 @@ router.post('/create', async(ctx) => {
 })
 /*
  * @desc 登录
+ * @url '/community_manage/admin_login'
+ * @params [String] username @desc 账号
+ * @params [String] password @desc 密码
+ * */
+router.post('/admin_login', async(ctx) => {
+const {username,password} = ctx.request.body
+let exist = await User.findOne({
+  username:username,
+  password:password,
+  type:{$in:['0','1']}
+}).exec()
+if(!exist) {
+  ctx.body = {
+    code:503,
+    message: '账号或密码错误'
+  }
+}else {
+  let token = createToken();
+  ctx.body = {
+    code:200,
+    message: 'success',
+    data: exist,
+    token:token
+  }
+}
+})
+
+/*
+ * @desc 移动端登录
  * @url '/community_manage/login'
  * @params [String] username @desc 账号
  * @params [String] password @desc 密码
