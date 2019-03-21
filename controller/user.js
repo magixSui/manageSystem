@@ -269,7 +269,7 @@ if(user) {
  * @params [String] username @desc 用户名
  * */
 router.post('/delete', async(ctx) => {
-let _id = ctx.request.body._id
+let _id = ctx.request.body
   let  user = await User.findByIdAndDelete({_id:_id})
   if(user) {
     ctx.body = {
