@@ -155,7 +155,8 @@ if(type === '0' || type === '1') {
     code:200,
     message: 'success',
     data: {
-      users:users
+      users:users,
+      length:length
     }
   }
 })
