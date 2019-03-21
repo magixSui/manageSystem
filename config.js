@@ -1,5 +1,4 @@
 const ISPRODUCT = process.env.NODE_ENV === 'production'
-console.log(process.env)
 const preUrl = ISPRODUCT ? 'http://magix.xyz' : 'http://localhost'
 const config = {
   port: 3000,
