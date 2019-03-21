@@ -62,7 +62,7 @@ r.post('/binary', upload, async (ctx) => {
 //let urls = []
 let urls = ''
   ctx.req.files.forEach((item,index)=>{
-    let path = item.path.replace(/^public\\/, '')
+    let path = item.path.replace(/^public/, '')
     urls = (`http://${config.ip}:${config.port}/${path}`.replace(/\\/g,'\/'))
   })
   
