@@ -142,12 +142,15 @@ if(!exist) {
  * @params [String] type @desc 用户类型
  * */
 router.get('/search', async(ctx) => {
-const {pagesize,pagenum,type} = ctx.request.query
+let {count,index,type} = ctx.request.query
+let length = 0
 let users = '';
 if(type === '0' || type === '1') {
-  users = await User.find({type:{$in:['1','2']}}).exec()
+  length = await User.find({type:{$in:['1','2']}).countDocuments()
+  users = await User.find({type:{$in:['1','2']}}).skip(index).limit(count).exec()
 }else if(type === '2') {
-  users = await User.find({type:{$in:['2']}}).exec()
+  length = await User.find({type:{$in:['2']}).countDocuments()
+  users = await User.find({type:{$in:['2']}}).skip(index).limit(count).exec()
 }
   ctx.body = {
     code:200,
