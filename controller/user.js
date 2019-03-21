@@ -142,7 +142,9 @@ if(!exist) {
  * @params [String] type @desc 用户类型
  * */
 router.get('/search', async(ctx) => {
-let {count,index,type} = ctx.request.query
+let type = ctx.request.query.type
+let count = Number(ctx.request.query.count)
+let index = Number(ctx.request.query.index)*count
 let length = 0
 let users = '';
 if(type === '0' || type === '1') {
