@@ -8,6 +8,7 @@ const User = require('../controller/user');
 const News = require('../controller/news');
 const House = require('../controller/house');
 const Upload = require('../controller/upload');
+const Fix = require('../controller/fix');
 
 const r = function(app) {
   
@@ -20,6 +21,7 @@ const r = function(app) {
   router.use("/news", News.routes());
   router.use("/house", House.routes());
   router.use("/upload", Upload.routes());
+  router.use("/fix", Fix.routes());
   app.use(router.routes()).use(router.allowedMethods());
 }
 

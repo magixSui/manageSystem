@@ -73,22 +73,30 @@ router.post('/save', async(ctx) => {
  * @params [String] type @desc 标题
  * */
 router.get('/search', async(ctx) => {
+  let searchConditions = {}
   let type = ctx.request.query.type
   let count = Number(ctx.request.query.count)
   let index = Number(ctx.request.query.index)*count
+  let userId = ctx.request.query.userId
   let news = ''
   let length = 0
-  if(type) {
-    length = await News.find({type:type}).countDocuments()
-    news = await News.find({type:type},{},{news:true}).skip(index).limit(count).populate('user').exec()
-  }else {
-    length = await News.countDocuments()
-    news = await News.find({},{},{news:true}).skip(index).limit(count).populate('user').exec()
+  if(userId) {
+    searchConditions.user = userId
   }
+  if(type) {
+    searchConditions.type = type
+  }
+//if(type) {
+//  length = await News.find({type:type}).countDocuments()
+//  news = await News.find({type:type},{},{news:true}).skip(index).limit(count).populate('user').exec()
+//}else {
+    length = await News.find(searchConditions).countDocuments()
+    news = await News.find(searchConditions,{},{news:true}).skip(index).limit(count).populate('user').exec()
+//}
   
   ctx.body = {
     code: 200,
-    message: '创建成功',
+    message: '查询成功',
     data: {
       news:news,
       length:length

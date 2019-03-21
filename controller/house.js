@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Router = require("koa-router");
 const router = new Router();
 const House = require('../schemas/houseSchema');
+const User = require('../schemas/userSchema');
 // 创建资讯
 /*
  * * @desc 保存
@@ -36,6 +37,9 @@ router.post('/save', async(ctx) => {
       user: userId
     })
     house.save()
+    const user = await User.findOne({_id:userId}).exec()
+    user.house.push(house)
+    user.save()
     ctx.body = {
     code: 200,
     message: '创建成功',

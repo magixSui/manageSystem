@@ -118,7 +118,7 @@ const {username,password} = ctx.request.body
 let exist = await User.findOne({
   username:username,
   password:password
-}).exec()
+}).populate('house').exec()
 if(!exist) {
   ctx.body = {
     code:503,

@@ -15,11 +15,10 @@ const FixSchema = new Schema({
     type: ObjectId,
     ref: 'User'
   },
-  community: String,
-  building:String,
-  room:String,
-  unit:String,
-  numbered:String,
+  address: String,
+  phoneNumber:String,
+  truble:String,
+  statu:String, // 0 已创建  1 处理中 2 已完成
   meta: {
     createAt: {
       type: Date,
@@ -45,11 +44,11 @@ FixSchema.pre('save', function(next) {
 
 
 /**
- * 定义模型User
+ * Fix
  * 模型用来实现我们定义的模式，调用mongoose.model来编译Schema得到Model
  * @type {[type]}
  */
-// 参数User 数据库中的集合名称, 不存在会创建.
+// Fix 数据库中的集合名称, 不存在会创建.
 var Fix = mongoose.model('Fix', FixSchema)
 
 module.exports = Fix

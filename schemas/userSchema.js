@@ -21,10 +21,17 @@ var UserSchema = new Schema({
     type:Schema.Types.ObjectId,
     ref:'News'
   }],
+  fixs: [{
+    type:Schema.Types.ObjectId,
+    ref:'Fix'
+  }],
+  house: [{
+    type:Schema.Types.ObjectId,
+    ref:'House'
+  }],
   followers: Array,
   watchers:Array,
   car:Object,
-  house:Object,
   bill:Object,
   type:String,// 0 超级管理员 1 管理员 2 用户
   statu:String,// 0 超级管理员 1 未审核 2 已审核
