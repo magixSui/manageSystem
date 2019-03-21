@@ -144,9 +144,7 @@ if(!exist) {
 router.get('/search', async(ctx) => {
 const {pagesize,pagenum,type} = ctx.request.query
 let users = '';
-if(type === '0') {
-  users = await User.find().exec()
-}else if(type === '1') {
+if(type === '0' || type === '1') {
   users = await User.find({type:{$in:['1','2']}}).exec()
 }else if(type === '2') {
   users = await User.find({type:{$in:['2']}}).exec()
@@ -261,6 +259,32 @@ if(user) {
     }
   }
 }
+})
+/*
+ * @desc 删除用户
+ * @url '/community_manage/user/delete'
+ * @params [String] username @desc 用户名
+ * */
+router.post('/delete', async(ctx) => {
+let _id = ctx.request.body._id
+  let  user = await User.findByIdAndDelete({_id:_id})
+  if(user) {
+    ctx.body = {
+    code: 200,
+    message: '删除成功',
+    data: {
+        success:true
+      }
+    }
+  }else {
+    ctx.body = {
+    code: 508,
+    message: '用户不存在',
+    data: {
+        success:'用户不存在'
+      }
+    }
+  }
 })
 /*
  * @url '/community_manage/login'
