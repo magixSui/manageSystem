@@ -53,9 +53,6 @@ router.post('/create', async(ctx) => {
         statu: '1',
         followers: [],
         watchers:[],
-        car:{},
-        house:{},
-        bill:{}
       })
       await user.save()
       
