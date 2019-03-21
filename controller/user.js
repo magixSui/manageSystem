@@ -146,10 +146,10 @@ let {count,index,type} = ctx.request.query
 let length = 0
 let users = '';
 if(type === '0' || type === '1') {
-  length = await User.find({type:{$in:['1','2']}).countDocuments()
+  length = await User.find({type:{$in:['1','2']}}).countDocuments()
   users = await User.find({type:{$in:['1','2']}}).skip(index).limit(count).exec()
 }else if(type === '2') {
-  length = await User.find({type:{$in:['2']}).countDocuments()
+  length = await User.find({type:{$in:['2']}}).countDocuments()
   users = await User.find({type:{$in:['2']}}).skip(index).limit(count).exec()
 }
   ctx.body = {
