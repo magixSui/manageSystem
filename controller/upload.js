@@ -4,7 +4,6 @@ const multer = require('koa-multer');
 const moment = require('moment')
 const fs = require('fs')
 const path = require('path')
-const utils = require('../utils');
 const config = require('../config');
 //const {preUrl} = require('../config')
 
@@ -63,9 +62,8 @@ r.post('/binary', upload, async (ctx) => {
 //let urls = []
 let urls = ''
   ctx.req.files.forEach((item,index)=>{
-    let ip = utils.getIpAddress(ctx.req)
     let path = item.path.replace(/^public\\/, '')
-    urls = (`http://${ip}:${config.port}/${path}`.replace(/\\/g,'\/'))
+    urls = (`http://${config.ip}:${config.port}/${path}`.replace(/\\/g,'\/'))
   })
   
   ctx.body = {
