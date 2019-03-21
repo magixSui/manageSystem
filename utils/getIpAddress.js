@@ -1,14 +1,13 @@
-const os = require('os')
+/**
+ * @getClientIP
+ * @desc 获取用户 ip 地址
+ * @param {Object} req - 请求
+ */
+function getClientIP(req) {
+    return req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
+        req.connection.remoteAddress || // 判断 connection 的远程 IP
+        req.socket.remoteAddress || // 判断后端的 socket 的 IP
+        req.connection.socket.remoteAddress;
+};
 
-module.exports = function getIPAdress(){
-    var interfaces = os.networkInterfaces();
-    for(var devName in interfaces){
-        var iface = interfaces[devName];
-        for(var i=0;i<iface.length;i++){
-            var alias = iface[i];
-            if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
-                return alias.address;
-            }
-        }
-    }
-}
+module.exports = getClientIP
