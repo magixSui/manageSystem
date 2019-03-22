@@ -57,7 +57,7 @@ router.get('/list', async(ctx) => {
   let index = Number(ctx.request.query.index)*count
   console.log(count)
   let length = await House.countDocuments()
-  let house = await House.find({},{},{new:true}).skip(index).limit(count).populate('user').exec()
+  let house = await House.find({},{}).skip(index).limit(count).populate('user').exec()
   ctx.body = {
     code: 200,
     message: '查询成功',
