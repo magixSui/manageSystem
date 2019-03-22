@@ -168,9 +168,9 @@ if(type === '0' || type === '1') {
  * @params [String] type @desc 用户类型
  * */
 router.post('/update', async(ctx) => {
-const {username,nickname,car,house} = ctx.request.body
+const {username,nickname,phoneNumber} = ctx.request.body
 let user = '';
-user = await User.findOneAndUpdate({username:username},{nickname:nickname,car:car,house:house},{new:true})
+user = await User.findOneAndUpdate({username:username},{nickname:nickname,phoneNumber:phoneNumber},{new:true})
 user.save()
   if(user) {
       ctx.body = {

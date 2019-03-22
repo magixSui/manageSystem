@@ -19,12 +19,10 @@ router.post('/save', async(ctx) => {
   let userId = ctx.request.body.userId
   let statu = ctx.request.body.statu
   let fixId = ctx.request.body.fixId || ''
+  console.log(fixId)
   if(fixId) {
     const fix = await Fix.findOneAndUpdate({_id:fixId},
     {
-      address : address,
-      phoneNumber : phoneNumber,
-      truble : truble,
       statu : statu
     },      
     {new:true})
@@ -74,29 +72,63 @@ ctx.body = {
 }
 })
 /*
+ * * @desc 查询当前报修状态
+ * */
+router.get('/info', async(ctx) => {
+  let userId = ctx.request.query.userId
+  let conditions = {user:userId}
+  let id = ctx.request.query._id || 0
+  let fix = null
+if(id) {
+  conditions._id = id
+  fix = await Fix.find(conditions).exec()
+}else {
+  fix = await Fix.find(conditions).limit(1).exec()
+}
+
+if(fix) {
+    ctx.body = {
+      code: 200,
+      message: '查询成功',
+      data: {
+        fix:fix
+      }
+    }
+}else {
+    ctx.body = {
+      code: 505,
+      message: '',
+      data: {
+        fix:''
+      }
+    }
+  }
+})
+
+/*
  * * @desc 查询
  * */
-//router.get('/search', async(ctx) => {
-//let userId = ctx.request.query.userId
-//let fix = await fix.findOne({user:userId}).exec()
-//if(fix) {
-//  ctx.body = {
-//    code: 200,
-//    message: '查询成功',
-//    data: {
-//      fix:fix
-//    }
-//  }
-//}else {
-//  ctx.body = {
-//    code: 505,
-//    message: '用户无房产',
-//    data: {
-//      fix:fix
-//    }
-//  }
-//}
-//})
+router.get('/search', async(ctx) => {
+let userId = ctx.request.query.userId
+let fix = await Fix.find({user:userId}).exec()
+if(fix) {
+    ctx.body = {
+      code: 200,
+      message: '查询成功',
+      data: {
+        fix:fix
+      }
+    }
+}else {
+    ctx.body = {
+      code: 505,
+      message: '',
+      data: {
+        fix:fix
+      }
+    }
+}
+})
 /*
  * * @desc 删除
  * */

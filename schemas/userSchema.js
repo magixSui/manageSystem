@@ -17,6 +17,7 @@ var UserSchema = new Schema({
   phoneNumber: String,
   nickname: String,
   avatar: String,
+  carNumber:String,
   dynamic: [{
     type:Schema.Types.ObjectId,
     ref:'News'
@@ -31,8 +32,7 @@ var UserSchema = new Schema({
   }],
   followers: Array,
   watchers:Array,
-  car:Object,
-  bill:Object,
+  car:Array,
   type:String,// 0 超级管理员 1 管理员 2 用户
   statu:String,// 0 超级管理员 1 未审核 2 已审核
   meta: {
