@@ -1,9 +1,9 @@
 const Router = require("koa-router");
 const r = new Router();
 const multer = require('koa-multer');
-const moment = require('moment')
-const fs = require('fs')
-const path = require('path')
+const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 const config = require('../config');
 //const {preUrl} = require('../config')
 
