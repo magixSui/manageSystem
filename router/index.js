@@ -2,13 +2,15 @@
 
 const Router = require('koa-router');
 const router = new Router({
-  prefix: '/community_manage'
+  prefix: '/mortage'
 });
 const User = require('../controller/user');
+// mortage
+const Upfile = require('../controller/uploadBody');
+const Car = require('../controller/mortage/cars');
 // love app
 const Lover = require('../controller/lover');
 const Dynamic = require('../controller/dynamic');
-const Upfile = require('../controller/loveController/upload');
 const Album = require('../controller/loveController/album');
 const Suggest = require('../controller/loveController/suggest');
 const Publish = require('../controller/loveController/publish');
@@ -28,11 +30,16 @@ const r = function(app) {
  * 看到 router.allowedMethods()用在了路由匹配 router.routes()之后,所以在当所有
  * 路由中间件最后调用.此时根据 ctx.status 设置 response 响应头 
  */
+router.use("/upfile", Upfile.routes());
+router.use("/car", Car.routes());
+
+
+
   router.use("/user", User.routes());
   // love app
   router.use("/lover", Lover.routes());
   router.use("/dynamic", Dynamic.routes());
-  router.use("/upfile", Upfile.routes());
+  
   router.use("/album", Album.routes());
   router.use("/suggest", Suggest.routes());
   router.use("/publish", Publish.routes());
