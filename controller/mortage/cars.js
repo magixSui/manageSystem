@@ -56,6 +56,28 @@ router.get('/list', async (ctx) => {
     }
   };
 });
+/*
+ * * @desc 通过id查询
+ *   @url '/mortage/car/query'
+ *   @params [String] id @desc id
+ * */
+router.get('/query', async (ctx) => {
+  let _id = ctx.request.query.id;
+  console.log(_id)
+  let car = await Car.findOne({_id:_id}).exec();
+  ctx.body = {
+    code: 200,
+    message: '查询成功',
+    data: {
+      car:car
+    }
+  };
+});
+/*
+ * * @desc 通过id删除
+ *   @url '/mortage/car/list'
+ *   @params {Array} 
+ * */
 
 router.post('/delete', async (ctx) => {
   let ids = ctx.request.body.ids;
