@@ -25,7 +25,7 @@
   "homepage": "https://github.com/magicxin/manage_system_server#readme",
   "dependencies": {
     "@koa/cors": "^2.2.3",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "koa": "^2.7.0",
     "koa-body": "^4.1.1",
     "koa-bodyparser": "^4.2.1",
